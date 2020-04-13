@@ -1,0 +1,31 @@
+pipeline {
+    agent any
+    stages {
+        stage('Build and Compile') {
+           steps { 
+               sh '''
+                cd /tmp/
+                wget http://apache.mirror.iweb.ca/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.zip
+                unzip apache-maven-3.6.3-bin.zip
+                export PATH=/tmp/apache-maven-3.6.3/bin:$PATH
+                cd /tmp/
+                git clone https://github.com/scmlearningcentre/maven.git
+                cd maven
+                mvn install
+                ls
+               '''
+           }
+        }
+    }
+    post { 
+	failure {
+	   mail body: 'Hi Adam', subject: 'The Pipeline failed', to: 'scmlearningcentre@gmail.com'
+        }
+    always {
+        sh '''
+        rm -rf /tmp/apache-maven-3.6.3-bin/
+        rm -rf /tmp/maven/
+        '''
+    }    
+    }
+}
