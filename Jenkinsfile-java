@@ -19,7 +19,7 @@ pipeline {
     }
     post { 
 	failure {
-	   mail body: 'Hi Adam', subject: 'The Pipeline failed', to: 'scmlearningcentre@gmail.com'
+	   mail body: 'Hi Adam', subject: 'The Pipeline failed', to: 'adam@gmail.com'
         }
     always {
         sh '''
