@@ -33,3 +33,6 @@ ng new my-app
 cd my-app
 ng serve --open
 ```
+
+https://jenkins.io/doc/book/pipeline/docker/
+https://devopscube.com/docker-containers-as-build-slaves-jenkins/
