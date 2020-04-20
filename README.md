@@ -12,7 +12,7 @@ To build the maven projects you can use plugin:
 
 To copy file from local to artifactory
 ```
-curl -v -u admin:Cooldude@007 --upload-file dockerfile http://localhost:8083/repository/mip/
+curl -v -u admin:****** --upload-file dockerfile http://localhost:8083/repository/mip/
 ```
 
 You can also copy the artifacts to nexus using the Plugin: 
