@@ -8,7 +8,7 @@ pipeline {
                 cd mip-cicd
                 docker system prune
                 docker build -t sampleapp .
-                docker run -p 9990:9990 sampleapp
+                docker run -d -p 9990:9990 sampleapp
                '''
            }
         }
