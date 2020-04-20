@@ -1,0 +1,28 @@
+pipeline {
+    agent any
+    stages {
+        stage('Build and Run docker container') {
+           steps { 
+               sh '''
+                sudo su
+                cd mip-cicd
+                docker system prune
+                docker build -t sampleapp .
+                docker run -p 9990:9990 sampleapp
+               '''
+           }
+        }
+    }
+    post { 
+	failure {
+	   mail body: 'Hi Adam', subject: 'The Pipeline failed', to: 'adam@gmail.com'
+        }
+    always {
+        sh '''
+        sudo su
+        rm -rf mip-cicd/
+        docker system prune
+        '''
+    }    
+    }
+}
