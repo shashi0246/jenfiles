@@ -1,7 +1,7 @@
 # Docker image for jenkins
 ```
 docker run -p 8080:8080 cloudbees/cloudbees-jenkins-distribution:latest
-docker run -p 8081:8081 sonatype/nexus3
+docker run -p 8083:8081 sonatype/nexus3   # port binding is hostPort:containerPort
 ```
 The above command will bring up jenkins which can be access on localhost:8080
 and artifactory on localhost:8081
@@ -36,3 +36,7 @@ ng serve --open
 
 https://jenkins.io/doc/book/pipeline/docker/
 https://devopscube.com/docker-containers-as-build-slaves-jenkins/
+https://guides.sonatype.com/
+http://maven.apache.org/settings.html
+https://www.jenkins.io/doc/book/installing/
+

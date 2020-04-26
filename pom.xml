@@ -16,72 +16,77 @@
 
   <build>
     <plugins>
-<plugin>
-  <groupId>org.codehaus.mojo</groupId>
-  <artifactId>exec-maven-plugin</artifactId>
-  <version>1.6.0</version>
+  <plugin>
+    <groupId>org.codehaus.mojo</groupId>
+    <artifactId>exec-maven-plugin</artifactId>
+    <version>1.6.0</version>
+    <configuration>
+    <executable>docker</executable>
+      <arguments>
+      <argument>build</argument>
+      <argument>-t</argument>
+      <argument>myproject</argument>
+      <argument>-f</argument>
+      <argument>DockerfileSample</argument>
+      <argument>.</argument>
+      </arguments>
+    </configuration>
+  </plugin>
+  <plugin>
+        <groupId>com.spotify</groupId>
+        <artifactId>docker-maven-plugin</artifactId>
+        <version>1.0.0</version>
+        <configuration>
+          <imageName>myproject</imageName>
+          <baseImage>ubuntu</baseImage>
+          <!-- copy the service's jar file from target into the root directory of the image --> 
+          <resources>
+            <resource>
+              <targetPath>/</targetPath>
+              <directory>${project.build.directory}</directory>
+              <include>${project.build.finalName}.jar</include>
+            </resource>
+          </resources>
+        </configuration>
+  </plugin>
+  <plugin>
+  <groupId>org.jacoco</groupId>
+  <artifactId>jacoco-maven-plugin</artifactId>
+  <version>0.5.5.201112152213</version>
   <configuration>
-   <executable>docker</executable>
-    <arguments>
-     <argument>build</argument>
-     <argument>-t</argument>
-     <argument>myproject</argument>
-     <argument>-f</argument>
-     <argument>DockerfileSample</argument>
-     <argument>.</argument>
-    </arguments>
-   </configuration>
-</plugin>
-<plugin>
-      <groupId>com.spotify</groupId>
-      <artifactId>docker-maven-plugin</artifactId>
-      <version>1.0.0</version>
-      <configuration>
-        <imageName>myproject</imageName>
-        <baseImage>ubuntu</baseImage>
-        <!-- copy the service's jar file from target into the root directory of the image --> 
-        <resources>
-           <resource>
-             <targetPath>/</targetPath>
-             <directory>${project.build.directory}</directory>
-             <include>${project.build.finalName}.jar</include>
-           </resource>
-        </resources>
-      </configuration>
-</plugin>
-<plugin>
- <groupId>org.jacoco</groupId>
- <artifactId>jacoco-maven-plugin</artifactId>
- <version>0.5.5.201112152213</version>
- <configuration>
-  <destFile>${basedir}/target/coverage-reports/jacoco-unit.exec</destFile>
-  <dataFile>${basedir}/target/coverage-reports/jacoco-unit.exec</dataFile>
- </configuration>
- <executions>
-  <execution>
-   <id>jacoco-initialize</id>
-   <goals>
-    <goal>prepare-agent</goal>
-   </goals>
-  </execution>
-  <execution>
-  <id>jacoco-site</id>
-   <phase>package</phase>
-   <goals>
-    <goal>report</goal>
-   </goals>
-   </execution>
-  </executions>
- </plugin>
-</plugins>
-</build>
-<dependencyManagement>
+    <destFile>${basedir}/target/coverage-reports/jacoco-unit.exec</destFile>
+    <dataFile>${basedir}/target/coverage-reports/jacoco-unit.exec</dataFile>
+  </configuration>
+  <executions>
+    <execution>
+    <id>jacoco-initialize</id>
+    <goals>
+      <goal>prepare-agent</goal>
+    </goals>
+    </execution>
+    <execution>
+    <id>jacoco-site</id>
+    <phase>package</phase>
+    <goals>
+      <goal>report</goal>
+    </goals>
+    </execution>
+    </executions>
+  </plugin>
+  </plugins>
+  </build>
+  <distributionManagement>
   <repository>
-    <id>deployment</id>
-    <name>Internal Release<name>
+    <id>deploymentRepo</id>
+    <name>Internal Release</name>
     <url>http://localhost:8083/repository/maven-releases/</url>
   </repository>
-</dependencyManagement>
+  <snapshotRepository>
+    <id>deploymentRepo</id>
+    <name>Internal Snapshot Release</name>
+    <url>http://localhost:8083/repository/maven-snapshots/</url>
+  </snapshotRepository>
+</distributionManagement>
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
